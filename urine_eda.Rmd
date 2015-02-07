@@ -1,0 +1,202 @@
+EDA for Data Products class
+========================================================
+
+See if urine OK
+
+```{r}
+library(SMPracticals)
+data(urine)
+urineComplete <- urine[complete.cases(urine),]
+str(urineComplete)
+summary(urineComplete)
+```
+
+More EDA
+
+```{r fig.width=7, fig.height=6}
+hist(urineComplete$gravity)
+hist(urineComplete$ph)
+hist(urineComplete$osmo)
+hist(urineComplete$cond)
+hist(urineComplete$urea)
+hist(urineComplete$calc)
+hist(log(urineComplete$calc+1))
+hist(log(urineComplete$gravity+1))
+hist(log(urineComplete$urea+1))
+```
+
+Generate a variety of models using different combinations of predictors.
+
+```{r}
+set.seed(3343)
+idx <- sample(nrow(urineComplete),61)
+ucTrain<-urineComplete[idx,]
+ucTest<-urineComplete[-idx,]
+
+fitallt<-glm(r ~ ., data=ucTrain,family="binomial")
+summary(fitallt)
+
+fitallclt<-glm(r ~ gravity+ph+osmo+cond+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitallclt)
+
+fitmostclt<-glm(r ~ gravity+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitmostclt)
+
+fitmost2clt<-glm(r ~ gravity+osmo+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitmost2clt)
+
+fitmost3clt<-glm(r ~ gravity+ph+osmo+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitmost3clt)
+
+fitmost4clt<-glm(r ~ gravity+ph+osmo*cond+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitmost4clt)
+
+fituct<-glm(r ~ urea+calc, data=ucTrain,family="binomial")
+summary(fituct)
+
+fitclt <- glm(r ~ log(calc+1), data=ucTrain,family="binomial")
+summary(fitclt)
+
+fituclt<-glm(r ~ urea +log(calc+1), data=ucTrain,family="binomial")
+summary(fituclt)
+
+fitpclt<-glm(r ~ ph +log(calc+1), data=ucTrain,family="binomial")
+summary(fitpclt)
+
+fitgclt<-glm(r ~ gravity +log(calc+1), data=ucTrain,family="binomial")
+summary(fitgclt)
+
+fitglclt<-glm(r ~ log(gravity+1) +log(calc+1), data=ucTrain,family="binomial")
+summary(fitglclt)
+
+fitoclt<-glm(r ~ osmo +log(calc+1), data=ucTrain,family="binomial")
+summary(fitoclt)
+
+fitcclt<-glm(r ~ cond +log(calc+1), data=ucTrain,family="binomial")
+summary(fitcclt)
+
+fitgcclt<-glm(r ~ gravity +cond+log(calc+1), data=ucTrain,family="binomial")
+summary(fitgcclt)
+
+fitall2clt<-glm(r ~ log(gravity+1)+log(ph+1)+osmo+cond+urea+log(calc+1), data=urineComplete,family="binomial")
+summary(fitall2clt)
+```
+
+```{r}
+
+predcl <- predict(fitclt, ucTest)
+exp(predcl)
+odds<-exp(predcl)
+probs<-odds/(odds+1)
+probs # this gives same result as type=response below
+```
+
+```{r}
+predcl_prob <- predict(fitclt, ucTest, type="response")
+predcl_prob
+predcl_prob>0.5
+rtable<-table(predcl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+```{r}
+predccl_prob <- predict(fitcclt, ucTest, type="response")
+predccl_prob
+predccl_prob>0.5
+rtable<-table(predccl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+```
+
+```{r}
+predgcl_prob <- predict(fitgclt, ucTest, type="response")
+predgcl_prob
+predgcl_prob>0.5
+rtable<-table(predgcl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+```{r}
+predgccl_prob <- predict(fitgcclt, ucTest, type="response")
+predgccl_prob
+predgccl_prob>0.5
+rtable<-table(predgccl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+```
+
+### Predict ALL
+
+```{r}
+predall_prob <- predict(fitallt, ucTest, type="response")
+predall_prob
+predall_prob>0.5
+rtable<-table(predall_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+```{r}
+predallcl_prob <- predict(fitallclt, ucTest, type="response")
+predallcl_prob
+predallcl_prob>0.5
+rtable<-table(predallcl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+```
+
+```{r}
+predall2cl_prob <- predict(fitall2clt, ucTest, type="response")
+predall2cl_prob
+predall2cl_prob>0.5
+rtable<-table(predall2cl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+### Predict MOST
+
+```{r}
+predmostcl_prob <- predict(fitmostclt, ucTest, type="response")
+predmostcl_prob
+predmostcl_prob>0.5
+rtable<-table(predmostcl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+```{r}
+predmost2cl_prob <- predict(fitmost2clt, ucTest, type="response")
+predmost2cl_prob
+predmost2cl_prob>0.5
+rtable<-table(predmost2cl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+
+```
+
+```{r}
+predmost3cl_prob <- predict(fitmost3clt, ucTest, type="response")
+predmost3cl_prob
+predmost3cl_prob>0.5
+rtable<-table(predmost3cl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+```
+
+```{r}
+predmost4cl_prob <- predict(fitmost4clt, ucTest, type="response")
+predmost4cl_prob
+predmost4cl_prob>0.5
+rtable<-table(predmost4cl_prob>0.5,ucTest$r==1)
+rtable
+(rtable[1]+rtable[4])/(sum(rtable))
+```
+
