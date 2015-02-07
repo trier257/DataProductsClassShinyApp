@@ -1,5 +1,7 @@
 library(shiny)
 # Layout UI -- slider inputs on left, information and output on right.
+# The slider inputs min and max are from the training data used to build the predictor.
+# The pre-set value is the median value for each type of measurement.
 shinyUI(fluidPage(
   titlePanel("Calcium Oxalate Crystal Probability Predictor"),
   sidebarLayout(
