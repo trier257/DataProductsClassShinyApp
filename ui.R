@@ -1,6 +1,7 @@
 library(shiny)
+# Layout UI -- slider inputs on left, information and output on right.
 shinyUI(fluidPage(
-  titlePanel("Calcium Oxalate Crystal Predictor"),
+  titlePanel("Calcium Oxalate Crystal Probability Predictor"),
   sidebarLayout(
     sidebarPanel(
       h3("Enter laboratory values for the following:"),
@@ -24,7 +25,7 @@ shinyUI(fluidPage(
         em("might"), " help predict if calcium oxalate crystals are present before pain occurs."),
       h4("Using this app:"),
       p(strong(span("Select", style="color:blue")), 
-        " laboratory values at the right, and ",strong(span("click",style="color:blue"))," on Predict Probability below to obtain the estimated probability of the presence of calcium oxalate crystals."),
+        " laboratory values at the left, and ",strong(span("click",style="color:blue"))," on Predict Probability below to obtain the estimated probability of the presence of calcium oxalate crystals."),
       h4('You entered these values:'),
       textOutput("ogravity"),
       textOutput("oph"),

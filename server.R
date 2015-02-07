@@ -1,10 +1,17 @@
 library(shiny)
 crystalPred <- function(grVal,phVal,osVal,urVal,calcVal) {
+  # This is the predict function based on the intercept and coefficients
+  # generated from a logistic regression model built with the urine data
+  # from the SMPracticals library.
   lcalcVal = log(calcVal+1)
+  # The logistic regression predicts log odds.
   logOddsVal <- -618.538705 + 615.751235*grVal -0.339323*phVal -
     0.014567*osVal - 0.006383*urVal + 2.866842*lcalcVal
+  # Convert to odds by exponentiating
   oddsVal <- exp(logOddsVal)
+  # And convert odds to probability
   probVal <- oddsVal/(1+oddsVal)
+  # Prettify the value for output
   retVal = paste(round(100*probVal, 2), "%.", sep="")
   return (retVal)
 }
@@ -47,12 +54,13 @@ shinyServer(
         input$calc
       }
     })
+    # Get the values input and show in output
     output$ogravity <- renderText({paste("Specific Gravity:",useGr())})
     output$oph <- renderText({paste("pH:", usePH())})
     output$oosmo <- renderText({paste("Osmolarity:", useOsmo())})
     output$ourea <- renderText({paste("Urea Concentration:", useUrea(), "mm/L")})
     output$ocalc <- renderText({paste("Calcium Concentration:", useCalc(), "mm/L")})
-    output$ogo<-renderText({paste("Go?", input$goButton)})
+    # If the predict button is pressed, output the predicted probability
     output$oans <- renderText({
       input$goButton
       isolate(paste("Predicted probability of crystals is", 
