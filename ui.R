@@ -36,7 +36,7 @@ shinyUI(fluidPage(
       textOutput("ocalc"),
       actionButton("goButton", strong(span("Predict Probability",style="color:blue"))),
       conditionalPanel(condition="input.goButton > 0",
-        textOutput("oans")
+        strong(textOutput("oans"))
       ),
       p(""),
       div("Note: pH impacts probability only in a few borderline cases. Changes in specific gravity, osmolarity, urea concentration and calcium concentration have a larger effect. Urea and calcium concentrations are measured in millimoles per liter.", style="font-size:small"),
