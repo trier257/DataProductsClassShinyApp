@@ -47,7 +47,9 @@ shinyUI(fluidPage(
       p(""),
       div("Picture credit: ", a("kidneystoners.org", href="http://www.kidneystoners.org"), "- ",
           a("Calcium oxalate crystals", href="http://www.kidneystoner.org/wp-content/uploads/2011/02/stone-2.jpg"),
-          style="font-size:x-small")
+          style="font-size:x-small"),
+      p(""),
+      div("The code may be found at ", a("Trier at GitHub", href="http://github.com/trier257/DataProductsClassShinyApp"), style="font-size:x-small")
     )
   )
 ))
