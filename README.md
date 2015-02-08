@@ -19,6 +19,12 @@ covariates, or all covariates minus osmolarity, or all covariates minus conducti
 somewhat arbitrarily, to use the model with osmolarity instead of conductivity. This resulted in a predictor function
 based on 5 measurements. The various models examined and their performance accuracy can be seen in urine_EDA.Rmd.
 
+Note: when plugging values into a logistic regression model, the value that is predicted is the log odds of
+having the condition (here, having calcium oxalate crystals). This log odds can be converted to an odds
+of having the condition by exponentiating the log odds. Then the odds can be converted to a probability
+with this formula: probability = odds/(1+odds). This is the formula used to return a predicted probability
+in the app. See server.R, the function crystalPred.
+
 Link to ShinyApp at shinyapp.io: https://trier257.shinyapps.io/ProjShiny/
 
 Link to RPubs presentation: http://rpubs.com/Trier/58801
