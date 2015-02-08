@@ -8,3 +8,5 @@ used to train the model, 16 for testing. The model chosen for this app was one o
 highest obtained accuracy score with the test data (93.75%). The best performing models contained either all the
 covariates, or all covariates minus osmolarity, or all covariates minus conductivity. It was decided,
 somewhat arbitrarily, to use the model with osmolarity instead of conductivity.
+
+Link to ShinyApp at shinyapp.io: https://trier257.shinyapps.io/ProjShiny/
